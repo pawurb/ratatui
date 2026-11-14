@@ -20,7 +20,7 @@ use core::fmt;
 use core::iter::zip;
 
 use itertools::Itertools;
-use ratatui_core::buffer::Buffer;
+use ratatui_core::buffer::{Buffer, Cell};
 use ratatui_core::layout::Rect;
 use ratatui_core::style::{Color, Style};
 use ratatui_core::symbols::braille::BRAILLE;
@@ -897,23 +897,13 @@ where
         painter(&mut ctx);
         ctx.finish();
 
-        // Retrieve painted points for each layer
+        // Retrieve painted points for each layer, one canvas row at a time
         for layer in ctx.layers {
-            for (index, layer_cell) in layer.contents.iter().enumerate() {
-                let (x, y) = (
-                    (index % width) as u16 + canvas_area.left(),
-                    (index / width) as u16 + canvas_area.top(),
-                );
-                let cell = &mut buf[(x, y)];
-
-                if let Some(symbol) = layer_cell.symbol {
-                    cell.set_char(symbol);
-                }
-                if let Some(fg) = layer_cell.fg {
-                    cell.set_fg(fg);
-                }
-                if let Some(bg) = layer_cell.bg {
-                    cell.set_bg(bg);
+            for (row, layer_row) in layer.contents.chunks_exact(width).enumerate() {
+                let start = buf.index_of(canvas_area.left(), canvas_area.top() + row as u16);
+                let cells = &mut buf.content[start..start + width];
+                for (cell, layer_cell) in cells.iter_mut().zip(layer_row) {
+                    merge_layer_cell(cell, layer_cell);
                 }
             }
         }
@@ -939,6 +929,19 @@ where
             let y = ((top - label.y) * resolution.1 / height) as u16 + canvas_area.top();
             buf.set_line(x, y, &label.line, canvas_area.right() - x);
         }
+    }
+}
+
+/// Draw a painted cell of a layer over the buffer cell below it.
+fn merge_layer_cell(cell: &mut Cell, layer_cell: &LayerCell) {
+    if let Some(symbol) = layer_cell.symbol {
+        cell.set_char(symbol);
+    }
+    if let Some(fg) = layer_cell.fg {
+        cell.set_fg(fg);
+    }
+    if let Some(bg) = layer_cell.bg {
+        cell.set_bg(bg);
     }
 }
 
