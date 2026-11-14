@@ -671,10 +671,19 @@ impl Buffer {
     #[cfg_attr(feature = "hotpath", hotpath::measure)]
     pub fn set_style<S: Into<Style>>(&mut self, area: Rect, style: S) {
         let style = style.into();
+        // An empty style changes no cell, and most widgets pass their default style here.
+        if style == Style::new() {
+            return;
+        }
         let area = self.area.intersection(area);
+        if area.is_empty() {
+            return;
+        }
+        let width = usize::from(area.width);
         for y in area.top()..area.bottom() {
-            for x in area.left()..area.right() {
-                self[(x, y)].set_style(style);
+            let start = self.index_of(area.left(), y);
+            for cell in &mut self.content[start..start + width] {
+                cell.set_style(style);
             }
         }
     }
