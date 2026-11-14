@@ -1,11 +1,11 @@
 use std::hint::black_box;
 
-use criterion::{BenchmarkId, Criterion};
+use hotpath::criterion::{BenchmarkId, Criterion};
 use ratatui::buffer::{Buffer, Cell};
 use ratatui::layout::Rect;
 use ratatui::text::Line;
 
-criterion::criterion_group!(benches, empty, filled, with_lines);
+hotpath::criterion::criterion_group!(benches, empty, filled, with_lines);
 
 const fn rect(size: u16) -> Rect {
     Rect::new(0, 0, size, size)

@@ -66,6 +66,18 @@ scrolling-regions = []
 ## This is useful if you want to save themes to a file.
 serde = ["bitflags/serde", "compact_str/serde", "dep:serde"]
 
+#! The following features are for profiling Ratatui itself with [`hotpath`] and are not meant for
+#! applications:
+
+## measures the rendering and layout hot paths with [`hotpath`]. Requires `std`.
+hotpath = ["dep:hotpath", "hotpath/hotpath", "std"]
+## also tracks the allocations of the measured functions.
+hotpath-alloc = ["hotpath", "hotpath/hotpath-alloc"]
+## adds the metadata needed to upload hotpath reports to hotpath.rs from CI.
+hotpath-cloud = ["hotpath", "hotpath/hotpath-cloud"]
+## adds Callgrind instruction counts of the measured functions to hotpath reports.
+hotpath-callgrind = ["hotpath", "hotpath/hotpath-callgrind"]
+
 [dependencies]
 anstyle = { workspace = true, optional = true }
 bitflags.workspace = true
@@ -73,6 +85,7 @@ compact_str.workspace = true
 critical-section = { workspace = true, optional = true }
 document-features = { workspace = true, optional = true }
 hashbrown.workspace = true
+hotpath = { workspace = true, optional = true }
 itertools.workspace = true
 kasuari = { workspace = true, default-features = false }
 lru.workspace = true

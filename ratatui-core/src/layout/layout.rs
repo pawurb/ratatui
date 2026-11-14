@@ -722,6 +722,7 @@ impl Layout {
     ///     .split(Rect::new(0, 0, 9, 2));
     /// assert_eq!(layout[..], [Rect::new(0, 0, 3, 2), Rect::new(3, 0, 6, 2)]);
     /// ```
+    #[cfg_attr(feature = "hotpath", hotpath::measure(impl_type = "Layout"))]
     pub fn split(&self, area: Rect) -> Rects {
         self.split_with_spacers(area).0
     }
@@ -832,6 +833,7 @@ impl Layout {
         self.try_split(area).expect("failed to split")
     }
 
+    #[cfg_attr(feature = "hotpath", hotpath::measure(impl_type = "Layout"))]
     fn try_split(&self, area: Rect) -> Result<(Segments, Spacers), AddConstraintError> {
         // To take advantage of all of [`kasuari`] features, we would want to store the `Solver` in
         // one of the fields of the Layout struct. And we would want to set it up such that we could

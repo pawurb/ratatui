@@ -45,6 +45,10 @@ portable-atomic = [
   "ratatui-core/portable-atomic",
 ]
 
+## measures the rendering hot paths of the widgets with [`hotpath`], for profiling Ratatui itself.
+## Requires `std`.
+hotpath = ["dep:hotpath", "hotpath/hotpath", "ratatui-core/hotpath", "std"]
+
 ## Enable all unstable features.
 unstable = ["unstable-rendered-line-info"]
 
@@ -58,6 +62,7 @@ unstable-rendered-line-info = []
 bitflags.workspace = true
 document-features = { workspace = true, optional = true }
 hashbrown.workspace = true
+hotpath = { workspace = true, optional = true }
 indoc.workspace = true
 instability.workspace = true
 itertools.workspace = true

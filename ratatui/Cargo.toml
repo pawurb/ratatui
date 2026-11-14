@@ -102,6 +102,18 @@ underline-color = [
   "ratatui-termwiz?/underline-color",
 ]
 
+#! The following features profile Ratatui itself with [`hotpath`] when running its benchmarks
+#! (see `benches/`). They are not meant for applications:
+
+## measures the rendering and layout hot paths with [`hotpath`].
+hotpath = ["ratatui-core/hotpath", "ratatui-widgets/hotpath", "std"]
+## also tracks the allocations of the measured functions.
+hotpath-alloc = ["hotpath", "ratatui-core/hotpath-alloc"]
+## adds the metadata needed to upload hotpath reports to hotpath.rs from CI.
+hotpath-cloud = ["hotpath", "ratatui-core/hotpath-cloud"]
+## adds Callgrind instruction counts of the measured functions to hotpath reports.
+hotpath-callgrind = ["hotpath", "ratatui-core/hotpath-callgrind"]
+
 #! The following features are unstable and may change in the future:
 
 ## Enable all unstable features.
@@ -144,6 +156,7 @@ ratatui-termion = { workspace = true, optional = true }
 
 [dev-dependencies]
 criterion.workspace = true
+hotpath = { workspace = true, features = ["criterion-0-8"] }
 crossterm = { workspace = true, features = ["event-stream"] }
 fakeit.workspace = true
 indoc.workspace = true

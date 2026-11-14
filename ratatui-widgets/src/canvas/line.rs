@@ -81,6 +81,7 @@ pub(crate) struct Polyline<'a> {
 }
 
 impl Shape for Polyline<'_> {
+    #[cfg_attr(feature = "hotpath", hotpath::measure(impl_type = "Polyline"))]
     fn draw(&self, painter: &mut Painter) {
         let Some(&(mut x1, mut y1)) = self.coords.first() else {
             return;
