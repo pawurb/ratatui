@@ -845,6 +845,7 @@ impl Line<'_> {
 
         buf.set_style(area, self.style);
 
+        let spans = self.spans.clone();
         let alignment = self.alignment.or(parent_alignment);
 
         let area_width = usize::from(area.width);
@@ -857,7 +858,7 @@ impl Line<'_> {
             };
             let indent_width = u16::try_from(indent_width).unwrap_or(u16::MAX);
             let area = area.indent_x(indent_width);
-            render_spans(&self.spans, area, buf, 0);
+            render_spans(&spans, area, buf, 0);
         } else {
             // There is not enough space to render the whole line. As the right side is truncated by
             // the area width, only truncate the left.
@@ -866,7 +867,7 @@ impl Line<'_> {
                 Some(Alignment::Right) => line_width.saturating_sub(area_width),
                 Some(Alignment::Left) | None => 0,
             };
-            render_spans(&self.spans, area, buf, skip_width);
+            render_spans(&spans, area, buf, skip_width);
         }
     }
 }
