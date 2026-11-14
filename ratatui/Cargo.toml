@@ -102,10 +102,10 @@ underline-color = [
   "ratatui-termwiz?/underline-color",
 ]
 
-#! The following features profile Ratatui itself with [`hotpath`] when running its benchmarks
-#! (see `benches/`). They are not meant for applications:
+#! The following features profile Ratatui itself with [`hotpath`](https://hotpath.rs) when
+#! running its benchmarks (see `benches/`). They are not meant for applications:
 
-## measures the rendering and layout hot paths with [`hotpath`].
+## measures the rendering and layout hot paths with [`hotpath`](https://hotpath.rs).
 hotpath = ["ratatui-core/hotpath", "ratatui-widgets/hotpath", "std"]
 ## also tracks the allocations of the measured functions.
 hotpath-alloc = ["hotpath", "ratatui-core/hotpath-alloc"]

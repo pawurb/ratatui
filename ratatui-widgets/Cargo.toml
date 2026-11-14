@@ -45,8 +45,8 @@ portable-atomic = [
   "ratatui-core/portable-atomic",
 ]
 
-## measures the rendering hot paths of the widgets with [`hotpath`], for profiling Ratatui itself.
-## Requires `std`.
+## measures the rendering hot paths of the widgets with [`hotpath`](https://hotpath.rs), for
+## profiling Ratatui itself. Requires `std`.
 hotpath = ["dep:hotpath", "hotpath/hotpath", "ratatui-core/hotpath", "std"]
 
 ## Enable all unstable features.

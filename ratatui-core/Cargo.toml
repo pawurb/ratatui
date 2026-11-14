@@ -66,10 +66,10 @@ scrolling-regions = []
 ## This is useful if you want to save themes to a file.
 serde = ["bitflags/serde", "compact_str/serde", "dep:serde"]
 
-#! The following features are for profiling Ratatui itself with [`hotpath`] and are not meant for
-#! applications:
+#! The following features are for profiling Ratatui itself with
+#! [`hotpath`](https://hotpath.rs) and are not meant for applications:
 
-## measures the rendering and layout hot paths with [`hotpath`]. Requires `std`.
+## measures the rendering and layout hot paths with [`hotpath`](https://hotpath.rs). Requires `std`.
 hotpath = ["dep:hotpath", "hotpath/hotpath", "std"]
 ## also tracks the allocations of the measured functions.
 hotpath-alloc = ["hotpath", "hotpath/hotpath-alloc"]
