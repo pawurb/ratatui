@@ -662,7 +662,7 @@ impl Buffer {
         self.set_stringn(x, y, &span.content, max_width as usize, span.style)
     }
 
-    /// Set the style of all cells in the given area.
+    /// Sets the style of all cells in the given area.
     ///
     /// `style` accepts any type that is convertible to [`Style`] (e.g. [`Style`], [`Color`], or
     /// your own type that implements [`Into<Style>`]).
