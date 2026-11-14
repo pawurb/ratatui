@@ -857,6 +857,7 @@ impl Widget for Text<'_> {
 }
 
 impl Widget for &Text<'_> {
+    #[cfg_attr(feature = "hotpath", hotpath::measure(impl_type = "Text"))]
     fn render(self, area: Rect, buf: &mut Buffer) {
         let area = area.intersection(buf.area);
         buf.set_style(area, self.style);

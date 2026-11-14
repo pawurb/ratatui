@@ -652,6 +652,7 @@ impl Buffer {
     /// your own type that implements [`Into<Style>`]).
     ///
     /// [`Color`]: crate::style::Color
+    #[cfg_attr(feature = "hotpath", hotpath::measure(impl_type = "Buffer"))]
     pub fn set_style<S: Into<Style>>(&mut self, area: Rect, style: S) {
         let style = style.into();
         let area = self.area.intersection(area);

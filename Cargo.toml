@@ -39,6 +39,7 @@ crossterm = "0.29"
 document-features = "0.2.11"
 fakeit = "1"
 hashbrown = "0.17"
+hotpath = "0.32.1"
 indoc = "2.0.5"
 instability = "0.3.7"
 itertools = { version = "0.15", default-features = false, features = ["use_alloc"] }
@@ -124,3 +125,12 @@ use_self = "warn"
 [profile.bench]
 codegen-units = 1
 lto = true
+
+# Profile for hotpath benchmark runs (`cargo bench --profile hotpath`). Fat LTO is slow to rebuild
+# in every CI job and Callgrind needs the symbols, so this keeps one codegen unit for consistent
+# numbers but skips LTO and stripping.
+[profile.hotpath]
+inherits = "release"
+codegen-units = 1
+lto = false
+strip = "none"

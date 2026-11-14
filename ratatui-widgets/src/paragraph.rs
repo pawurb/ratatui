@@ -423,6 +423,7 @@ impl Widget for Paragraph<'_> {
 }
 
 impl Widget for &Paragraph<'_> {
+    #[cfg_attr(feature = "hotpath", hotpath::measure(impl_type = "Paragraph"))]
     fn render(self, area: Rect, buf: &mut Buffer) {
         let area = area.intersection(buf.area);
         buf.set_style(area, self.style);
@@ -433,6 +434,7 @@ impl Widget for &Paragraph<'_> {
 }
 
 impl Paragraph<'_> {
+    #[cfg_attr(feature = "hotpath", hotpath::measure(impl_type = "Paragraph"))]
     fn render_paragraph(&self, text_area: Rect, buf: &mut Buffer) {
         if text_area.is_empty() {
             return;
@@ -464,6 +466,7 @@ impl Paragraph<'_> {
     }
 }
 
+#[cfg_attr(feature = "hotpath", hotpath::measure)]
 fn render_lines<'a, C: LineComposer<'a>>(mut composer: C, area: Rect, buf: &mut Buffer) {
     let mut y = 0;
     while let Some(ref wrapped) = composer.next_line() {
