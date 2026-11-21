@@ -454,11 +454,10 @@ impl Painter<'_, '_> {
         if !x.is_finite() || !y.is_finite() || x < left || x > right || y < bottom || y > top {
             return None;
         }
-        let (scale_x, scale_y) = self.scale?;
-        // Both products are non-negative here, so adding 0.5 and truncating rounds half away from
-        // zero, matching `f64::round` without the `i64` round trip.
-        let x = ((x - left) * scale_x + 0.5) as usize;
-        let y = ((top - y) * scale_y + 0.5) as usize;
+        self.scale?;
+        let (resolution_x, resolution_y) = self.context.grid.resolution();
+        let x = ((x - left) * (resolution_x - 1.0) / (right - left) + 0.5) as usize;
+        let y = ((top - y) * (resolution_y - 1.0) / (top - bottom) + 0.5) as usize;
         Some((x, y))
     }
 
