@@ -19,6 +19,7 @@ impl<'a> Points<'a> {
 }
 
 impl Shape for Points<'_> {
+    #[cfg_attr(feature = "hotpath", hotpath::measure)]
     fn draw(&self, painter: &mut Painter) {
         for (x, y) in self.coords {
             if let Some((x, y)) = painter.get_point(*x, *y) {

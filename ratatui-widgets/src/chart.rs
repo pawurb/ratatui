@@ -751,6 +751,7 @@ impl<'a> Chart<'a> {
 
     /// Compute the internal layout of the chart given the area. If the area is too small some
     /// elements may be automatically hidden
+    #[cfg_attr(feature = "hotpath", hotpath::measure)]
     fn layout(&self, area: Rect) -> Option<ChartLayout> {
         if area.height == 0 || area.width == 0 {
             return None;
@@ -1045,7 +1046,9 @@ impl Widget for Chart<'_> {
 }
 
 impl Widget for &Chart<'_> {
-    #[expect(clippy::too_many_lines)]
+    #[cfg_attr(feature = "hotpath", hotpath::measure)]
+    // `hotpath::measure` rewrites the body, so the lint only fires without it.
+    #[cfg_attr(not(feature = "hotpath"), expect(clippy::too_many_lines))]
     fn render(self, area: Rect, buf: &mut Buffer) {
         let area = area.intersection(buf.area);
         if area.is_empty() {
